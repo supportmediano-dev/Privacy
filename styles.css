@@ -1,0 +1,721 @@
+/* ===================================================================
+   Mediano — paper.
+   The web translation of the app's design language.
+
+   Taken straight from the app:
+     · AuriaPalette.linen / .bone      -> the paper the site is printed on
+     · AuriaPalette.maroon (default)   -> the brand ink
+     · builtInAccents "Rust" #C8501B   -> the accent that acts
+     · PaperMetrics.openRadius 22      -> every corner
+     · PaperMetrics.sideInset 22       -> every gutter
+     · PaperMotion.unfold spring       -> how things arrive
+
+   PaperUnfold's rules are law here too:
+     1. A sheet is opaque from frame one. No opacity animation. Ever.
+     2. Content never scales and never reflows. It sits at final size
+        and gets uncovered.
+     3. No blur, no cross-fade, no placeholder.
+   =================================================================== */
+
+:root {
+  /* paper */
+  --paper:        #FAF4EC;  /* linen bg       */
+  --paper-raised: #FFFBF6;  /* linen surface  */
+  --paper-warm:   #EADFCE;  /* linen warm     */
+  --paper-sunk:   #F1E8DC;  /* linen bgSoft   */
+
+  /* ink */
+  --ink:          #241A15;  /* cocoa bg, used as text */
+  --ink-soft:     #6B5D52;
+  --ink-faint:    #9C8E82;
+
+  /* brand */
+  --maroon:       #3D161B;  /* default palette bg      */
+  --maroon-lift:  #54242B;  /* default palette surface */
+  --rust:         #C8501B;  /* accent "Rust"           */
+  --amber:        #B8790E;  /* accent "Amber"          */
+
+  /* paper edges — warm, never grey */
+  --edge:         #E3D8C8;
+
+  /* Material elevation, warmed. Two shadows each: key light + ambient. */
+  --lift-1: 0 1px 2px rgba(61, 22, 27, .10), 0 1px 3px rgba(61, 22, 27, .06);
+  --lift-2: 0 2px 4px rgba(61, 22, 27, .10), 0 4px 10px rgba(61, 22, 27, .07);
+  --lift-3: 0 4px 8px rgba(61, 22, 27, .11), 0 10px 22px rgba(61, 22, 27, .09);
+  --lift-4: 0 8px 14px rgba(61, 22, 27, .13), 0 20px 40px rgba(61, 22, 27, .11);
+
+  --radius:  22px;   /* PaperMetrics.openRadius */
+  --radius-s: 14px;
+  --inset:   22px;   /* PaperMetrics.sideInset  */
+  --maxw:   1100px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font: 17px/1.62 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
+        Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* The grain. A single tiled SVG, so the paper is never a flat colour.
+   z-index: -1 keeps this fixed layer behind the page for good. At z-index 0
+   it could composite over everything below the fold and blank the page. */
+body::before {
+  content: "";
+  position: fixed; inset: 0; pointer-events: none; z-index: -1;
+  opacity: .45;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");
+}
+main, header, footer { position: relative; z-index: 1; }
+
+a { color: var(--rust); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.wrap { max-width: var(--maxw); margin: 0 auto; padding-inline: var(--inset); }
+
+/* ---------------- top bar: a sheet laid over the page ---------------- */
+header {
+  position: sticky; top: 0; z-index: 40;
+  background: var(--paper-raised);
+  border-bottom: 1px solid var(--edge);
+  box-shadow: var(--lift-1);
+}
+.nav { display: flex; align-items: center; gap: 24px; height: 64px; }
+.logo {
+  font-weight: 800; font-size: 20px; letter-spacing: -.025em;
+  color: var(--maroon);
+}
+.logo:hover { text-decoration: none; }
+.nav-links { margin-left: auto; display: flex; gap: 6px; }
+.nav-links a {
+  color: var(--ink-soft); font-size: 15px; font-weight: 500;
+  padding: 8px 14px; border-radius: 999px;
+}
+.nav-links a:hover { background: var(--paper-sunk); color: var(--ink); text-decoration: none; }
+
+/* ---------------- hero ---------------- */
+.hero { padding-block: 84px 20px; }
+.hero-inner { max-width: 760px; }
+
+.chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--paper-raised); border: 1px solid var(--edge);
+  border-radius: 999px; padding: 7px 16px 7px 12px;
+  font-size: 13.5px; font-weight: 600; color: var(--maroon);
+  box-shadow: var(--lift-1); margin-bottom: 26px;
+}
+.chip .dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--rust);
+}
+
+h1 {
+  font-size: clamp(42px, 7.4vw, 82px);
+  line-height: .98; letter-spacing: -.035em; font-weight: 800;
+  margin: 0 0 22px; color: var(--maroon);
+}
+h1 em { font-style: normal; color: var(--rust); }
+
+.lede {
+  font-size: clamp(17px, 2.1vw, 21px); color: var(--ink-soft);
+  max-width: 600px; margin: 0 0 32px;
+}
+
+/* ---------------- buttons: paper that presses ---------------- */
+.row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+
+.btn {
+  position: relative; overflow: hidden;
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 14px 26px; border-radius: 999px;
+  font-size: 16px; font-weight: 650; border: 1px solid transparent;
+  cursor: pointer; user-select: none;
+  transition: box-shadow .18s ease, transform .18s ease, background .18s ease;
+}
+.btn-primary {
+  background: var(--rust); color: #FFF7F1; box-shadow: var(--lift-2);
+}
+.btn-primary:hover { box-shadow: var(--lift-3); transform: translateY(-1px); text-decoration: none; }
+.btn-primary:active { box-shadow: var(--lift-1); transform: translateY(1px); }
+
+.btn-paper {
+  background: var(--paper-raised); color: var(--maroon);
+  border-color: var(--edge); box-shadow: var(--lift-1);
+}
+.btn-paper:hover { box-shadow: var(--lift-2); transform: translateY(-1px); text-decoration: none; }
+.btn-paper:active { box-shadow: none; transform: translateY(1px); }
+
+.btn[aria-disabled="true"] { opacity: .5; pointer-events: none; }
+
+/* Material ripple — driven by paper.js */
+.ripple {
+  position: absolute; border-radius: 50%; transform: scale(0);
+  background: currentColor; opacity: .26; pointer-events: none;
+  animation: ripple .55s cubic-bezier(.22,.61,.36,1) forwards;
+}
+@keyframes ripple { to { transform: scale(2.6); opacity: 0; } }
+
+/* ---------------- sections ---------------- */
+section { padding-block: 64px; }
+.section-head { max-width: 640px; margin-bottom: 36px; }
+h2 {
+  font-size: clamp(30px, 4.2vw, 44px); letter-spacing: -.028em;
+  font-weight: 800; margin: 0 0 12px; color: var(--maroon);
+}
+.section-lede { color: var(--ink-soft); margin: 0; font-size: 18px; }
+
+/* ---------------- the sheets ---------------- */
+.grid {
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(258px, 1fr));
+}
+
+.sheet {
+  background: var(--paper-raised);
+  border: 1px solid var(--edge);
+  border-radius: var(--radius);
+  padding: 26px 24px 28px;
+  box-shadow: var(--lift-1);
+  transition: box-shadow .22s ease, transform .22s ease;
+}
+.sheet:hover { box-shadow: var(--lift-3); transform: translateY(-3px); }
+
+.sheet h3 {
+  margin: 0 0 8px; font-size: 19px; font-weight: 700;
+  letter-spacing: -.015em; color: var(--maroon);
+}
+.sheet p { margin: 0; color: var(--ink-soft); font-size: 15.5px; line-height: 1.55; }
+
+.sheet .mark {
+  width: 40px; height: 40px; border-radius: 12px; margin-bottom: 16px;
+  display: grid; place-items: center;
+  background: var(--paper-warm); color: var(--maroon);
+  font-size: 19px; font-weight: 800;
+}
+.sheet.signature { background: var(--maroon); border-color: var(--maroon); }
+.sheet.signature h3 { color: #FBEFE6; }
+.sheet.signature p { color: #D8C3B8; }
+.sheet.signature .mark { background: var(--maroon-lift); color: #F6D9C4; }
+
+/* ---------------- specs: one folded strip ---------------- */
+.specs {
+  display: grid; gap: 1px; background: var(--edge);
+  border: 1px solid var(--edge); border-radius: var(--radius);
+  overflow: hidden; box-shadow: var(--lift-2);
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+.spec { background: var(--paper-raised); padding: 24px; }
+.spec dt {
+  margin: 0 0 6px; font-size: 12px; font-weight: 700; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--ink-faint);
+}
+.spec dd { margin: 0; font-size: 18px; font-weight: 700; color: var(--maroon); }
+
+/* ---------------- closing band ---------------- */
+.band {
+  background: var(--maroon); color: #FBEFE6;
+  border-radius: var(--radius); padding: clamp(32px, 6vw, 60px);
+  box-shadow: var(--lift-4);
+}
+.band h2 { color: #FBEFE6; }
+.band p { color: #D8C3B8; font-size: 18px; max-width: 520px; margin: 0 0 28px; }
+.band .btn-paper { background: #FBEFE6; border-color: transparent; color: var(--maroon); }
+
+/* ---------------- unfold (PaperMotion) ----------------
+   Uncovered, never faded. The sheet is opaque the whole way. */
+/* Safe by default: the sheet is only hidden once paper.js says it is running,
+   so if the script never loads the page still reads perfectly. */
+.paper-js .unfold { clip-path: inset(0 0 100% 0); }
+.unfold.open {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path .46s cubic-bezier(.19,.87,.30,1.02);  /* response .46 */
+}
+/* An inset(0) clip keeps cutting anything outside the box — which squares off
+   every shadow at the corners. Once it is open, drop the clip entirely. */
+.unfold.done { clip-path: none; transition: none; }
+@media (prefers-reduced-motion: reduce) {
+  .paper-js .unfold, .unfold.open { clip-path: none; transition: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* ---------------- legal / support pages ---------------- */
+.page {
+  background: var(--paper-raised); border: 1px solid var(--edge);
+  border-radius: var(--radius); box-shadow: var(--lift-2);
+  padding: clamp(28px, 5vw, 56px); margin-block: 40px 72px;
+  max-width: 800px;
+}
+.page h1 { font-size: clamp(32px, 5vw, 46px); margin-bottom: 10px; }
+.page h2 { font-size: 23px; margin-top: 42px; }
+.page h3 { font-size: 17.5px; margin: 28px 0 6px; color: var(--maroon); font-weight: 700; }
+.page p, .page li { color: #443830; }
+.page ul { padding-left: 22px; }
+.page li { margin-bottom: 9px; }
+.updated { color: var(--ink-faint); font-size: 14.5px; margin: 0 0 34px; }
+
+.note {
+  background: #FDF1D8; border: 1px solid #E8C98A;
+  border-left: 5px solid var(--amber);
+  border-radius: var(--radius-s); padding: 16px 18px; margin: 22px 0;
+  font-size: 15px; color: #5C4517;
+}
+.note code {
+  background: #F3E2BC; border-radius: 6px; padding: 1px 6px;
+  font-size: 13.5px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ---------------- footer ---------------- */
+footer {
+  background: var(--paper-sunk); border-top: 1px solid var(--edge);
+  padding-block: 44px 52px; margin-top: 24px;
+}
+.foot { display: flex; gap: 56px; flex-wrap: wrap; }
+.foot-col h4 {
+  margin: 0 0 14px; font-size: 12px; font-weight: 700; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--ink-faint);
+}
+.foot-col a { display: block; color: var(--ink-soft); margin-bottom: 9px; font-size: 15.5px; }
+.foot-col a:hover { color: var(--maroon); text-decoration: none; }
+.copy { color: var(--ink-faint); font-size: 14px; margin-top: 34px; }
+
+@media (max-width: 640px) {
+  .hero { padding-block: 56px 12px; }
+  section { padding-block: 46px; }
+  .foot { gap: 32px; }
+  .nav-links a { padding: 8px 10px; font-size: 14px; }
+}
+
+/* ---------------- the shots ----------------
+   Screenshots sit on paper like photographs laid on a desk: a warm mount,
+   a real shadow, and the device's own rounded screen preserved. */
+.shots {
+  display: grid; gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+}
+.shot {
+  margin: 0; background: var(--paper-raised);
+  border: 1px solid var(--edge); border-radius: var(--radius);
+  padding: 14px 14px 18px; box-shadow: var(--lift-2);
+  transition: box-shadow .22s ease, transform .22s ease;
+}
+.shot:hover { box-shadow: var(--lift-4); transform: translateY(-4px); }
+.shot img {
+  display: block; width: 100%; height: auto;
+  border-radius: 14px; background: var(--maroon);
+}
+.shot figcaption {
+  margin-top: 13px; text-align: center;
+  font-size: 14.5px; font-weight: 650; color: var(--maroon);
+}
+.shot figcaption span {
+  display: block; font-weight: 400; color: var(--ink-faint); font-size: 13px;
+}
+
+/* On a phone the row becomes a swipe, with the paper edge bleeding off. */
+@media (max-width: 860px) {
+  .shots {
+    grid-template-columns: repeat(4, 74%);
+    overflow-x: auto; scroll-snap-type: x mandatory;
+    padding-bottom: 10px; margin-inline: calc(var(--inset) * -1);
+    padding-inline: var(--inset);
+    scrollbar-width: none;
+  }
+  .shots::-webkit-scrollbar { display: none; }
+  .shot { scroll-snap-align: center; }
+}
+
+/* ===================================================================
+   LOUD. The app tints its whole screen from the album artwork —
+   the site does the same thing with light behind the paper.
+   =================================================================== */
+
+/* ---- hero: type on the left, the app itself on the right ---- */
+.stage {
+  display: grid; grid-template-columns: 1.05fr .95fr;
+  gap: 40px; align-items: center;
+  padding-block: 72px 60px;
+}
+@media (max-width: 900px) {
+  .stage { grid-template-columns: 1fr; gap: 8px; padding-block: 48px 40px; }
+}
+
+h1.huge {
+  font-size: clamp(52px, 9vw, 104px);
+  line-height: .9; letter-spacing: -.045em; margin: 0 0 18px;
+}
+.one-line { font-size: clamp(18px, 2.3vw, 23px); color: var(--ink-soft); margin: 0 0 30px; }
+
+/* the glow: the artwork tint, escaped from the phone */
+.glow { position: relative; display: grid; place-items: center; min-height: 420px; }
+.glow::before {
+  content: ""; position: absolute; inset: -6% -10%;
+  background:
+    radial-gradient(42% 40% at 30% 28%, #6B3FA0 0%, transparent 62%),
+    radial-gradient(46% 42% at 72% 38%, #A81F3C 0%, transparent 64%),
+    radial-gradient(52% 48% at 50% 82%, #1C6B63 0%, transparent 66%);
+  filter: blur(46px); opacity: .58; z-index: 0;
+}
+.glow img {
+  position: relative; z-index: 1;
+  width: min(300px, 74vw); height: auto; border-radius: 30px;
+  box-shadow: 0 30px 60px rgba(61,22,27,.34), 0 8px 18px rgba(61,22,27,.22);
+}
+
+/* ---- full-bleed maroon band with a fanned stack of phones ---- */
+.dark-band {
+  background: var(--maroon); color: #FBEFE6;
+  padding-block: 72px 0; margin-top: 24px;
+  overflow: hidden;
+}
+.dark-band h2 { color: #FBEFE6; margin-bottom: 8px; }
+.dark-band .section-lede { color: #C9AEA3; }
+.fan {
+  display: flex; justify-content: center; align-items: flex-end;
+  gap: 0; margin-top: 44px; padding-bottom: 0;
+}
+.fan img {
+  width: min(252px, 30vw); height: auto; border-radius: 26px 26px 0 0;
+  box-shadow: 0 -8px 40px rgba(0,0,0,.42);
+  border: 1px solid rgba(251,239,230,.10); border-bottom: 0;
+}
+.fan img:nth-child(1) { transform: rotate(-7deg) translate(34px, 26px); z-index: 1; }
+.fan img:nth-child(2) { transform: translateY(-6px); z-index: 3; }
+.fan img:nth-child(3) { transform: rotate(7deg) translate(-34px, 26px); z-index: 2; }
+@media (max-width: 700px) {
+  .fan img:nth-child(1) { transform: rotate(-8deg) translate(48px, 32px); }
+  .fan img:nth-child(3) { transform: rotate(8deg) translate(-48px, 32px); }
+}
+
+/* ---- tiles: a word and a mark, nothing more ---- */
+.tiles {
+  display: grid; gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(182px, 1fr));
+}
+.tile {
+  background: var(--paper-raised); border: 1px solid var(--edge);
+  border-radius: var(--radius); padding: 22px 20px 24px;
+  box-shadow: var(--lift-1);
+  transition: box-shadow .2s ease, transform .2s ease;
+}
+.tile:hover { box-shadow: var(--lift-3); transform: translateY(-3px); }
+.tile b { display: block; font-size: 18px; letter-spacing: -.015em; color: var(--maroon); }
+.tile span { display: block; margin-top: 3px; color: var(--ink-faint); font-size: 14px; }
+.tile .glyph {
+  font-size: 26px; line-height: 1; margin-bottom: 14px; display: block; color: var(--rust);
+}
+
+/* ---- palettes: the app's own themes, as paint ---- */
+.paints { display: flex; flex-wrap: wrap; gap: 10px; }
+.paint {
+  width: 62px; height: 62px; border-radius: 16px;
+  border: 1px solid rgba(61,22,27,.14); box-shadow: var(--lift-1);
+}
+
+/* ---- big closing type ---- */
+.shout {
+  font-size: clamp(34px, 6.2vw, 64px); line-height: .98;
+  letter-spacing: -.035em; font-weight: 800; margin: 0 0 24px;
+}
+
+/* ---- corrections: louder ---- */
+.band .shout {
+  font-size: clamp(36px, 6.4vw, 68px); line-height: .98;
+  letter-spacing: -.035em; font-weight: 800; color: #FBEFE6;
+  margin: 0 0 26px; max-width: none;
+}
+.glow::before { opacity: .78; filter: blur(52px); inset: -12% -16%; }
+
+.tiles { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
+.tile { padding: 26px 24px 28px; }
+.tile .glyph { font-size: 32px; margin-bottom: 18px; }
+.tile b { font-size: 20px; }
+.tile span { font-size: 14.5px; margin-top: 5px; }
+
+/* every third tile is inked, so the grid has a pulse */
+.tile:nth-child(3n+1) { background: var(--maroon); border-color: var(--maroon); }
+.tile:nth-child(3n+1) b { color: #FBEFE6; }
+.tile:nth-child(3n+1) span { color: #C9AEA3; }
+.tile:nth-child(3n+1) .glyph { color: #F0A97C; }
+
+.paints {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+  gap: 12px;
+}
+.paint { width: 100%; height: 88px; border-radius: 18px; }
+
+/* 16 themes read as two clean rows of eight, not a ragged wrap */
+@media (min-width: 900px) { .paints { grid-template-columns: repeat(8, 1fr); } }
+@media (max-width: 899px) { .paints { grid-template-columns: repeat(4, 1fr); } }
+
+/* ---- the mark, on the page itself ---- */
+.logo { display: inline-flex; align-items: center; gap: 10px; }
+.logo img {
+  width: 30px; height: 30px; border-radius: 8px; display: block;
+  box-shadow: var(--lift-1); border: 1px solid var(--edge);
+}
+
+/* big, over the closing band */
+.band .mark-big {
+  width: 84px; height: 84px; border-radius: 21px; display: block;
+  margin-bottom: 24px; box-shadow: var(--lift-3);
+}
+
+/* the hero chip wears it too */
+.chip img {
+  width: 20px; height: 20px; border-radius: 6px; display: block;
+  border: 1px solid var(--edge);
+}
+
+footer .foot-mark {
+  width: 38px; height: 38px; border-radius: 10px; display: block;
+  margin-bottom: 18px; border: 1px solid var(--edge); box-shadow: var(--lift-1);
+}
+
+/* ---- the two things nobody else does ---- */
+.duo {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
+}
+@media (max-width: 860px) { .duo { grid-template-columns: 1fr; } }
+
+.big-sheet {
+  border-radius: var(--radius); padding: 34px 32px 36px;
+  box-shadow: var(--lift-3); border: 1px solid var(--edge);
+  background: var(--paper-raised);
+}
+.big-sheet.ink { background: var(--maroon); border-color: var(--maroon); }
+.big-sheet h3 {
+  font-size: clamp(24px, 3vw, 32px); letter-spacing: -.025em;
+  font-weight: 800; margin: 0 0 12px; color: var(--maroon); line-height: 1.05;
+}
+.big-sheet.ink h3 { color: #FBEFE6; }
+.big-sheet p { margin: 0; color: var(--ink-soft); font-size: 16.5px; }
+.big-sheet.ink p { color: #D8C3B8; }
+.big-sheet .kicker {
+  display: inline-block; font-size: 12px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--rust); margin-bottom: 14px;
+}
+.big-sheet.ink .kicker { color: #F0A97C; }
+
+/* numbers doing the talking */
+.figures { display: flex; gap: 28px; flex-wrap: wrap; margin-top: 26px; }
+.figure b {
+  display: block; font-size: clamp(26px, 3.4vw, 36px); font-weight: 800;
+  letter-spacing: -.03em; color: #FBEFE6; line-height: 1;
+}
+.figure span {
+  display: block; margin-top: 6px; font-size: 12.5px; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase; color: #C9AEA3;
+}
+
+
+/* ===================================================================
+   GLASS — the app's second skin.
+   White, not black. Liquid Glass is clear material over a light ground:
+   the panes are frosted white, the rims are bright, and colour only
+   ever arrives as a faint tint from what sits behind the glass.
+   =================================================================== */
+
+/* the switch */
+.skin-switch {
+  margin-left: 14px; display: inline-flex; align-items: center;
+  background: var(--paper-sunk); border: 1px solid var(--edge);
+  border-radius: 999px; padding: 3px; flex: none;
+}
+.skin-switch button {
+  appearance: none; border: 0; cursor: pointer; font: inherit;
+  font-size: 13px; font-weight: 650; letter-spacing: -.01em;
+  padding: 6px 13px; border-radius: 999px; color: var(--ink-soft);
+  background: transparent; transition: background .2s ease, color .2s ease;
+}
+.skin-switch button[aria-pressed="true"] {
+  background: var(--paper-raised); color: var(--maroon); box-shadow: var(--lift-1);
+}
+
+html[data-skin="glass"] {
+  --ink:          #16161A;
+  --ink-soft:     #5B5B66;
+  --ink-faint:    #8E8E9A;
+  --maroon:       #0E0E12;          /* headings: near-black, not a colour */
+  --edge:         rgba(16,16,22,.10);
+  --paper:        #FFFFFF;
+  --paper-raised: rgba(255,255,255,.72);
+  --paper-sunk:   rgba(16,16,22,.04);
+  --paper-warm:   rgba(16,16,22,.06);
+  --rust:         #1F6FEB;          /* one live colour, iOS blue */
+  --amber:        #B8790E;
+
+  --lift-1: 0 1px 2px rgba(16,16,22,.05), 0 1px 3px rgba(16,16,22,.04);
+  --lift-2: 0 2px 6px rgba(16,16,22,.06), 0 6px 16px rgba(16,16,22,.05);
+  --lift-3: 0 4px 10px rgba(16,16,22,.07), 0 14px 30px rgba(16,16,22,.07);
+  --lift-4: 0 10px 20px rgba(16,16,22,.08), 0 26px 50px rgba(16,16,22,.09);
+}
+
+html[data-skin="glass"] body { background: var(--paper); color: var(--ink); }
+
+/* Light behind the glass — pale, wide, almost white. Without it the frost
+   has nothing to refract and the panes look like plain boxes. */
+html[data-skin="glass"] body::before {
+  opacity: 1; filter: blur(60px);
+  background-image:
+    radial-gradient(46% 40% at 12% 8%,  rgba(31,111,235,.16) 0%, transparent 70%),
+    radial-gradient(44% 38% at 88% 14%, rgba(255,86,120,.13) 0%, transparent 70%),
+    radial-gradient(48% 42% at 20% 78%, rgba(120,86,255,.12) 0%, transparent 72%),
+    radial-gradient(44% 40% at 84% 88%, rgba(0,180,160,.12) 0%, transparent 70%);
+}
+
+/* every pane: frosted white, hairline rim, a bright line along the top edge */
+html[data-skin="glass"] header,
+html[data-skin="glass"] .sheet,
+html[data-skin="glass"] .tile,
+html[data-skin="glass"] .shot,
+html[data-skin="glass"] .page,
+html[data-skin="glass"] .spec,
+html[data-skin="glass"] .big-sheet,
+html[data-skin="glass"] .chip,
+html[data-skin="glass"] .skin-switch,
+html[data-skin="glass"] .swipe-demo,
+html[data-skin="glass"] .band,
+html[data-skin="glass"] .dark-band,
+html[data-skin="glass"] .tile:nth-child(3n+1),
+html[data-skin="glass"] .big-sheet.ink,
+html[data-skin="glass"] footer {
+  background: var(--paper-raised);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  border: 1px solid var(--edge);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9), var(--lift-2);
+  color: var(--ink);
+}
+html[data-skin="glass"] header { border-width: 0 0 1px; border-radius: 0; }
+html[data-skin="glass"] footer { border-width: 1px 0 0; border-radius: 0; background: rgba(255,255,255,.6); }
+html[data-skin="glass"] .dark-band { border-inline: 0; border-radius: 0; }
+
+/* ink variants have no ink here — they read by being brighter glass */
+html[data-skin="glass"] .tile:nth-child(3n+1),
+html[data-skin="glass"] .big-sheet.ink,
+html[data-skin="glass"] .band {
+  background: rgba(255,255,255,.86);
+  box-shadow: inset 0 1px 0 #FFF, var(--lift-3);
+}
+html[data-skin="glass"] .tile:nth-child(3n+1) b,
+html[data-skin="glass"] .big-sheet.ink h3,
+html[data-skin="glass"] .band h2,
+html[data-skin="glass"] .band .shout,
+html[data-skin="glass"] .dark-band h2,
+html[data-skin="glass"] .figure b,
+html[data-skin="glass"] .page h3 { color: var(--maroon); }
+html[data-skin="glass"] .tile:nth-child(3n+1) span,
+html[data-skin="glass"] .big-sheet.ink p,
+html[data-skin="glass"] .band p,
+html[data-skin="glass"] .dark-band .section-lede { color: var(--ink-soft); }
+html[data-skin="glass"] .figure span,
+html[data-skin="glass"] .tile:nth-child(3n+1) .glyph { color: var(--ink-faint); }
+html[data-skin="glass"] .big-sheet.ink .kicker { color: var(--rust); }
+
+/* glass buttons: clear, rimmed, lit from the top */
+html[data-skin="glass"] .btn-primary {
+  background: rgba(31,111,235,.92); color: #FFF; border: 1px solid rgba(31,111,235,.5);
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.45), var(--lift-2);
+}
+html[data-skin="glass"] .btn-paper,
+html[data-skin="glass"] .band .btn-paper {
+  background: rgba(255,255,255,.7); color: var(--maroon);
+  border: 1px solid var(--edge);
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  box-shadow: inset 0 1px 0 #FFF, var(--lift-1);
+}
+html[data-skin="glass"] .nav-links a:hover { background: rgba(16,16,22,.05); color: var(--maroon); }
+html[data-skin="glass"] .skin-switch button[aria-pressed="true"] { background: #FFF; color: var(--maroon); }
+
+/* glass icon tiles: the glyph sits on its own small pane */
+html[data-skin="glass"] .tile .glyph,
+html[data-skin="glass"] .sheet .mark {
+  width: 46px; height: 46px; border-radius: 14px;
+  display: grid; place-items: center; font-size: 22px;
+  background: rgba(255,255,255,.75);
+  border: 1px solid var(--edge);
+  box-shadow: inset 0 1px 0 #FFF, var(--lift-1);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  color: var(--rust);
+}
+
+html[data-skin="glass"] .glow::before { opacity: .5; filter: blur(60px); }
+html[data-skin="glass"] .shot img { background: rgba(16,16,22,.06); }
+html[data-skin="glass"] .paint { border-color: var(--edge); }
+html[data-skin="glass"] .specs { background: var(--edge); }
+html[data-skin="glass"] .swipe-demo .lines i { background: rgba(16,16,22,.10); }
+html[data-skin="glass"] .page p, html[data-skin="glass"] .page li { color: #3C3C46; }
+html[data-skin="glass"] .logo img,
+html[data-skin="glass"] .chip img,
+html[data-skin="glass"] .foot-mark { border-color: var(--edge); }
+html[data-skin="glass"] .chip { color: var(--maroon); }
+html[data-skin="glass"] .chip .dot { background: var(--rust); }
+
+/* the material change is worth watching */
+html[data-skin] body,
+html[data-skin] .sheet, html[data-skin] .tile, html[data-skin] .big-sheet,
+html[data-skin] .page, html[data-skin] .shot, html[data-skin] header,
+html[data-skin] footer, html[data-skin] .btn, html[data-skin] .spec {
+  transition: background-color .4s ease, color .4s ease,
+              border-color .4s ease, box-shadow .4s ease;
+}
+
+/* ---- the swipe, shown ----
+   A real crop of the mini player, sunk into the sheet like a strip of film,
+   with a chevron either side saying which way it goes. */
+.swipe-demo {
+  margin: 26px 0 0; padding: 18px 8px 14px;
+  background: var(--maroon);
+  border: 1px solid rgba(61,22,27,.18);
+  border-radius: 20px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center; gap: 4px;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,.35);
+  overflow: hidden;
+}
+.swipe-demo img {
+  grid-row: 1; width: 100%; height: auto; display: block;
+  border-radius: 13px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.42);
+}
+.swipe-demo .chev {
+  grid-row: 1; display: grid; place-items: center;
+  color: #F0A97C; width: 30px;
+}
+.swipe-demo .chev-l { animation: nudge-l 2.4s ease-in-out infinite; }
+.swipe-demo .chev-r { animation: nudge-r 2.4s ease-in-out infinite; }
+@keyframes nudge-l {
+  0%, 62%, 100% { transform: translateX(0);   opacity: .75; }
+  76%           { transform: translateX(-4px); opacity: 1; }
+}
+@keyframes nudge-r {
+  0%, 62%, 100% { transform: translateX(0);   opacity: .75; }
+  76%           { transform: translateX(4px);  opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .swipe-demo .chev-l, .swipe-demo .chev-r { animation: none; }
+}
+.swipe-demo figcaption {
+  grid-column: 1 / -1; text-align: center;
+  margin-top: 12px; font-size: 12.5px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: #C9AEA3;
+}
+
+html[data-skin="glass"] .swipe-demo {
+  background: rgba(16,16,22,.055);
+  border-color: var(--edge);
+  box-shadow: inset 0 2px 10px rgba(16,16,22,.07);
+}
+html[data-skin="glass"] .swipe-demo .chev { color: var(--rust); }
+html[data-skin="glass"] .swipe-demo figcaption { color: var(--ink-faint); }
+html[data-skin="glass"] .swipe-demo img { box-shadow: 0 8px 20px rgba(16,16,22,.18); }
