@@ -2,205 +2,287 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Mediano — Your music. One player.</title>
-<meta name="description" content="A music player for iPhone and iPad. On-device recommendations, swipe-to-change mini player, playlist import and AirPlay.">
+<meta name="description" content="Mediano is a music player for iPhone and iPad. On-device recommendations, swipe the mini player to change track, import your playlists, bring your own files.">
 <link rel="canonical" href="https://medianomusic.com/">
 <meta name="theme-color" content="#FAF4EC">
 <link rel="icon" href="favicon.png">
 <link rel="apple-touch-icon" href="img/appicon.png">
-<link rel="stylesheet" href="styles.css?v=7">
+
 <meta property="og:title" content="Mediano — Your music. One player.">
 <meta property="og:description" content="A music player for iPhone and iPad.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://medianomusic.com/">
 <meta property="og:image" content="https://medianomusic.com/img/appicon-512.png">
 <meta name="twitter:card" content="summary_large_image">
+
+<link rel="stylesheet" href="home.css?v=1">
 </head>
 <body>
 
+<div class="progress" id="prog"></div>
+<div class="aura" aria-hidden="true"><i></i><i></i><i></i></div>
+
 <header>
   <nav class="nav wrap">
-    <a class="logo" href="/"><img src="img/appicon.png" alt=""> Mediano</a>
-    <div class="nav-links">
-      <a href="#look">Screens</a>
-      <a href="#signature">Why Mediano</a>
-      <a href="#features">Features</a>
-      <a href="support.html">Support</a>
+    <a class="logo" href="#top"><img src="img/appicon.png" alt=""> Mediano</a>
+    <div class="skin" role="group" aria-label="Design">
+      <button type="button" data-skin="paper" aria-pressed="true">Paper</button>
+      <button type="button" data-skin="glass" aria-pressed="false">Glass</button>
     </div>
-      <div class="skin-switch" role="group" aria-label="Site design">
-        <button type="button" data-skin="paper" aria-pressed="true">Paper</button>
-        <button type="button" data-skin="glass" aria-pressed="false">Glass</button>
-      </div>
   </nav>
 </header>
 
-<main>
+<main id="top">
 
   <!-- HERO -->
-  <div class="wrap stage">
-    <div>
-      <span class="chip"><img src="img/appicon.png" alt=""> Coming to the App Store</span>
-      <h1 class="huge">Your music.<br><em>One player.</em></h1>
-      <p class="one-line">iPhone &amp; iPad. Free.</p>
-      <div class="row">
-        <a class="btn btn-primary" href="#look">Take a look</a>
-        <a class="btn btn-paper" aria-disabled="true" href="#">App Store — soon</a>
-      </div>
+  <section class="hero wrap">
+    <span class="chip"><img src="img/appicon.png" alt=""> Coming to the App Store</span>
+    <h1>
+      <span class="line"><span>Your music.</span></span>
+      <span class="line"><span><em>One player.</em></span></span>
+    </h1>
+    <p class="lede">iPhone &amp; iPad. Free, and quietly fast.</p>
+    <div class="row">
+      <a class="btn btn-p" href="#screens">See it move</a>
+      <a class="btn btn-g" href="#features">Features</a>
     </div>
-    <div class="glow">
-      <img src="img/nowplaying.jpg" data-paper="img/nowplaying.jpg" data-glass="img/nowplaying-glass.jpg" width="570" height="1239"
-           alt="The Mediano player, tinted from the album artwork.">
+
+    <div class="stage">
+      <img id="tilt" src="img/nowplaying.jpg" width="570" height="1239"
+           data-paper="img/nowplaying.jpg" data-glass="img/nowplaying-glass.jpg"
+           alt="The Mediano player.">
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker" aria-hidden="true">
+    <div id="tick">
+      <b>Sleep timer</b><b>Sleep timer</b><b>On-device picks</b><b>Swipe to skip</b>
+      <b>21 themes</b><b>Your own files</b><b>AirPlay</b><b>No account</b>
     </div>
   </div>
 
-  <!-- THE APP, BIG -->
-  <section id="look" class="dark-band">
+  <!-- DECK -->
+  <section id="screens">
     <div class="wrap">
-      <h2>Every screen, for real.</h2>
-      <p class="section-lede">No mock-ups.</p>
+      <h2 class="up">Deal through it.</h2>
+      <p class="sub up">Flick through them the way you switch apps.</p>
     </div>
-    <div class="fan">
-      <img src="img/explore.jpg" data-paper="img/explore.jpg" data-glass="img/explore-glass.jpg" width="570" height="1239" loading="lazy" alt="Explore.">
-      <img src="img/home.jpg" data-paper="img/home.jpg" data-glass="img/home-glass.jpg" width="570" height="1239" loading="lazy" alt="Home.">
-      <img src="img/library.jpg" data-paper="img/library.jpg" data-glass="img/library-glass.jpg" width="570" height="1239" loading="lazy" alt="Library.">
-    </div>
-  </section>
 
-  <!-- THE TWO THINGS -->
-  <section id="signature" class="wrap">
-    <div class="section-head unfold">
-      <h2>Two things no one else does.</h2>
-    </div>
-    <div class="duo">
-
-      <div class="big-sheet ink unfold">
-        <span class="kicker">On your phone</span>
-        <h3>Recommendations that never leave the device.</h3>
-        <p>
-          No server, no account, no profile of you sitting somewhere. The whole
-          catalogue ships inside the app and the matching runs on your iPhone —
-          and it knows your music, not just the English Top 40.
-        </p>
-        <div class="figures">
-          <div class="figure"><b>1M+</b><span>Tracks on board</span></div>
-          <div class="figure"><b>6,291</b><span>Genres</span></div>
-        </div>
-      </div>
-
-      <div class="big-sheet unfold">
-        <span class="kicker">Only here</span>
-        <h3>Swipe the mini player to change the song.</h3>
-        <p>
-          Flick left or right anywhere on the bar. The artwork follows your
-          finger and the next track lands — no opening the player, no hunting
-          for a tiny arrow.
-        </p>
-        <figure class="swipe-demo">
-          <span class="chev chev-l" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
-                 stroke="currentColor" stroke-width="2.4"
-                 stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 5 7 12l7 7"/><path d="M19 5l-7 7 7 7" opacity=".45"/>
-            </svg>
-          </span>
-
-          <img src="img/miniplayer.jpg" width="1160" height="148"
-               data-paper="img/miniplayer.jpg" data-glass="img/miniplayer-glass.jpg"
-               alt="The Mediano mini player, showing the track now playing.">
-
-          <span class="chev chev-r" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
-                 stroke="currentColor" stroke-width="2.4"
-                 stroke-linecap="round" stroke-linejoin="round">
-              <path d="M10 5l7 7-7 7"/><path d="M5 5l7 7-7 7" opacity=".45"/>
-            </svg>
-          </span>
-
-          <figcaption>Swipe either way</figcaption>
+    <div class="deck">
+      <div class="rail" id="rail">
+        <figure class="card">
+          <img src="img/nowplaying.jpg" data-paper="img/nowplaying.jpg" data-glass="img/nowplaying-glass.jpg" alt="Now Playing" loading="lazy">
+          <figcaption>Now Playing<span>Colour from the cover</span></figcaption>
+        </figure>
+        <figure class="card">
+          <img src="img/home.jpg" data-paper="img/home.jpg" data-glass="img/home-glass.jpg" alt="Home" loading="lazy">
+          <figcaption>Home<span>Back to what you played</span></figcaption>
+        </figure>
+        <figure class="card">
+          <img src="img/explore.jpg" data-paper="img/explore.jpg" data-glass="img/explore-glass.jpg" alt="Explore" loading="lazy">
+          <figcaption>Explore<span>Made for you, on device</span></figcaption>
+        </figure>
+        <figure class="card">
+          <img src="img/library.jpg" data-paper="img/library.jpg" data-glass="img/library-glass.jpg" alt="Library" loading="lazy">
+          <figcaption>Library<span>Playlists and imports</span></figcaption>
         </figure>
       </div>
-
+      <div class="dots" id="dots" aria-hidden="true"></div>
+      <p class="hint">Flick through</p>
     </div>
   </section>
 
-  <!-- TILES -->
-  <section id="features" class="wrap">
-    <div class="section-head unfold">
-      <h2>All of it. One app.</h2>
-    </div>
-    <div class="tiles">
-      <div class="tile unfold"><span class="glyph">↯</span><b>Import playlists</b><span>Matched for you</span></div>
-      <div class="tile unfold"><span class="glyph">⌸</span><b>Your own files</b><span>Same library</span></div>
-      <div class="tile unfold"><span class="glyph">◎</span><b>AirPlay</b><span>Any speaker</span></div>
-      <div class="tile unfold"><span class="glyph">≡</span><b>Equalizer</b><span>Your ears</span></div>
-      <div class="tile unfold"><span class="glyph">☾</span><b>Sleep timer</b><span>Fades out</span></div>
-      <div class="tile unfold"><span class="glyph">↺</span><b>Last.fm</b><span>Auto scrobble</span></div>
-    </div>
-  </section>
-
-  <!-- PAINT -->
+  <!-- ON DEVICE -->
   <section class="wrap">
-    <div class="section-head unfold">
-      <h2>Wear any colour.</h2>
-      <p class="section-lede">Twenty-one themes. Or make your own.</p>
-    </div>
-    <div class="paints unfold">
-      <div class="paint" style="background:#FAF4EC" title="Linen"></div>
-      <div class="paint" style="background:#EFE6D2" title="Sand"></div>
-      <div class="paint" style="background:#ECEBE6" title="Mist"></div>
-      <div class="paint" style="background:#F8D9E4" title="Rose"></div>
-      <div class="paint" style="background:#F8E9AE" title="Honey"></div>
-      <div class="paint" style="background:#FBDBBC" title="Apricot"></div>
-      <div class="paint" style="background:#E6EDE4" title="Sage"></div>
-      <div class="paint" style="background:#E4EDF5" title="Sky"></div>
-      <div class="paint" style="background:#EBE6F2" title="Lilac"></div>
-      <div class="paint" style="background:#3D161B" title="Maroon"></div>
-      <div class="paint" style="background:#4A1734" title="Mulberry"></div>
-      <div class="paint" style="background:#2C1740" title="Plum"></div>
-      <div class="paint" style="background:#13233D" title="Ocean"></div>
-      <div class="paint" style="background:#12251C" title="Forest"></div>
-      <div class="paint" style="background:#241A15" title="Cocoa"></div>
-      <div class="paint" style="background:#000000" title="Ink"></div>
+    <h2 class="up">It thinks on your phone.</h2>
+    <p class="sub up">No server. No account. No profile of you anywhere.</p>
+    <div class="stats two">
+      <div class="stat up"><b>1M+</b><span>Tracks</span></div>
+      <div class="stat up"><b data-count="6291">0</b><span>Genres</span></div>
     </div>
   </section>
 
-  <!-- SPECS -->
-  <section id="devices" class="wrap">
-    <dl class="specs unfold">
-      <div class="spec"><dt>Platform</dt><dd>iPhone &amp; iPad</dd></div>
-      <div class="spec"><dt>Requires</dt><dd>iOS 26</dd></div>
-      <div class="spec"><dt>Works with</dt><dd>AirPlay</dd></div>
-      <div class="spec"><dt>Price</dt><dd>Free</dd></div>
-    </dl>
-  </section>
-
-  <!-- CTA -->
+  <!-- SWIPE -->
   <section class="wrap">
-    <div class="band unfold">
-      <img class="mark-big" src="img/appicon.png" alt="The Mediano app icon">
-      <p class="shout">Bring your<br>library home.</p>
-      <div class="row">
-        <a class="btn btn-paper" aria-disabled="true" href="#">App Store — soon</a>
-        <a class="btn btn-paper" href="support.html">Support</a>
+    <h2 class="up">Skip without looking.</h2>
+    <p class="sub up">Flick the mini player. The artwork follows your finger.</p>
+    <div class="swipe up">
+      <div class="strip">
+        <span class="c l"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 5 7 12l7 7"/><path d="M19 5l-7 7 7 7" opacity=".45"/></svg></span>
+        <img src="img/miniplayer.jpg" data-paper="img/miniplayer.jpg" data-glass="img/miniplayer-glass.jpg" alt="The mini player" loading="lazy">
+        <span class="c r"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5l7 7-7 7"/><path d="M5 5l7 7-7 7" opacity=".45"/></svg></span>
       </div>
+      <p>Swipe either way</p>
     </div>
   </section>
 
+  <!-- BENTO -->
+  <section class="wrap" id="features">
+    <h2 class="up">All of it. One app.</h2>
+    <p class="sub up">Eight things you would otherwise need four apps for.</p>
+
+    <div class="bento">
+      <article class="cell wide ink up">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v11"/><path d="m8 10 4 4 4-4"/><path d="M4 17v3h16v-3"/></svg></span>
+        <h3>Import your playlists</h3>
+        <p>Matched track by track. Nothing left behind.</p>
+        <div class="bars"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </article>
+
+
+      <article class="cell up">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7a2 2 0 0 1 2-2h4l2 2h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="2.4"/></svg></span>
+        <h3>Your own files</h3><p>Same library</p>
+      </article>
+
+      <article class="cell up">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 3v9l5 2.5"/></svg></span>
+        <h3>No account</h3><p>Just press play</p>
+      </article>
+
+
+      <article class="cell up">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 14a8 8 0 0 1 13 0"/><path d="M8.5 17a4.4 4.4 0 0 1 7 0"/><path d="m12 22 3-3.5H9z"/></svg></span>
+        <h3>AirPlay</h3><p>Any speaker</p>
+      </article>
+
+      <article class="cell up">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 19V9"/><path d="M12 19V5"/><path d="M18 19v-7"/><circle cx="6" cy="6.5" r="1.6"/><circle cx="12" cy="16" r="1.6"/><circle cx="18" cy="9" r="1.6"/></svg></span>
+        <h3>Equalizer</h3><p>Your ears</p>
+      </article>
+
+      <article class="cell up">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.2 8.2 0 0 1 9.5 4 8.3 8.3 0 1 0 20 14.5"/></svg></span>
+        <h3>Sleep timer</h3><p>Fades out</p>
+      </article>
+
+      <article class="cell wide up">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v4h-4"/></svg></span>
+        <h3>Last.fm scrobbling</h3>
+        <p>Connect once. Every play logged from then on.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- THEME -->
+  <section class="wrap" id="themes">
+    <h2 class="up">Try a colour on.</h2>
+    <p class="sub up">Twenty-one themes. This is the app wearing them.</p>
+
+    <div class="theme up">
+      <!-- The real Now Playing screen, rebuilt in HTML. Every colour is a
+           palette variable, so the whole screen re-dresses at once. -->
+      <div class="phone" id="pv">
+        <div class="pv-status"><b>9:41</b><span class="notch"></span><i class="sig"></i></div>
+
+        <div class="pv-bar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>
+          <span>NOW PLAYING</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5.5 13a8 8 0 0 1 13 0"/><path d="M8.5 16a4.4 4.4 0 0 1 7 0"/><path d="m12 21 3-3.5H9z" fill="currentColor"/></svg>
+        </div>
+
+        <div class="pv-seg">
+          <b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7" width="12" height="10" rx="2.5"/><path d="m16 12 5-3v6z"/></svg>Video</b>
+          <b class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="8.5" cy="10" r="1.6"/><path d="m4 17 5-4.5 4 3.5 3-2 4 3.5"/></svg>Image</b>
+        </div>
+
+        <img class="pv-art" src="img/cover.jpg" alt="">
+
+        <div class="pv-title">
+          <h4>Daydream</h4>
+          <span class="pv-acts">
+            <i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 15V4"/><path d="m8 8 4-4 4 4"/><path d="M5 14v5h14v-5"/></svg></i>
+            <i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 19s-6.5-4.2-6.5-8.6A3.7 3.7 0 0 1 12 8a3.7 3.7 0 0 1 6.5 2.4C18.5 14.8 12 19 12 19z"/></svg></i>
+            <i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M12 8.5v7M8.5 12h7"/></svg></i>
+          </span>
+        </div>
+        <p class="pv-artist">Narvent, Pxlish Beatz</p>
+
+        <div class="pv-track"><i></i></div>
+        <div class="pv-times"><span>0:37</span><span>−2:16</span></div>
+
+        <div class="pv-ctrl">
+          <span class="sq"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l-1.5 0V5zM19 5v14l-10-7z"/></svg></span>
+          <span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5h3v14H8zM13 5h3v14h-3z"/></svg>Pause</span>
+          <span class="sq"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5v14l1.5 0V5zM5 5v14l10-7z"/></svg></span>
+        </div>
+
+        <div class="pv-row2">
+          <i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M3 7h4l10 10h4"/><path d="M17 3l4 4-4 4M3 17h4"/></svg></i>
+          <i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 9a4 4 0 0 1 4-4h9"/><path d="m14 2 3 3-3 3"/><path d="M20 15a4 4 0 0 1-4 4H7"/><path d="m10 22-3-3 3-3"/></svg></i>
+          <i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 19s-6.5-4.2-6.5-8.6A3.7 3.7 0 0 1 12 8a3.7 3.7 0 0 1 6.5 2.4C18.5 14.8 12 19 12 19z"/></svg></i>
+          <i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7h11M4 12h11M4 17h7"/><path d="M19 8v9"/><circle cx="17.2" cy="17.4" r="1.8"/></svg></i>
+          <i class="fill">•••</i>
+        </div>
+
+        <p class="pv-name"><b id="pvName">Linen</b></p>
+      </div>
+
+      <div class="swatches" id="sw" role="group" aria-label="Themes"></div>
+    </div>
+  </section>
+
+  <!-- END -->
+  <section class="wrap">
+    <div class="end up">
+      <img src="img/appicon.png" alt="">
+      <h2>Bring your<br>library home.</h2>
+      <p>Free on iPhone and iPad.</p>
+      <div class="row"><a class="btn btn-g" href="#top">Back to top</a></div>
+    </div>
+  </section>
 </main>
 
 <footer>
-  <div class="wrap">
-    <img class="foot-mark" src="img/appicon.png" alt="Mediano">
-    <div class="foot">
-      <div class="foot-col"><h4>App</h4><a href="#look">Screens</a><a href="#features">Features</a></div>
-      <div class="foot-col"><h4>Help</h4><a href="support.html">Support</a></div>
-      <div class="foot-col"><h4>Legal</h4><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></div>
+  <div class="wrap foot-box">
+    <div class="foot-top">
+      <a class="foot-brand" href="#top">
+        <img src="img/appicon.png" alt=""> Mediano
+      </a>
+      <p>A music player for iPhone and iPad. Your library, your files, your phone.</p>
     </div>
-    <p class="copy">© 2026 Baljinder Singh</p>
+
+    <div class="foot-cols">
+      <div>
+        <h5>App</h5>
+        <a href="#screens">Screens</a>
+        <a href="#features">Features</a>
+        <a href="#themes">Themes</a>
+      </div>
+      <div>
+        <h5>Help</h5>
+        <a href="support.html">Support</a>
+        <a href="mailto:support@medianomusic.com">Contact us</a>
+        <a href="mailto:support@medianomusic.com?subject=Bug%20report">Report a bug</a>
+      </div>
+      <div>
+        <h5>Legal</h5>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Use</a>
+      </div>
+      <div>
+        <h5>Get in touch</h5>
+        <a href="mailto:support@medianomusic.com">support@medianomusic.com</a>
+        <a href="/">medianomusic.com</a>
+      </div>
+    </div>
+
+    <div class="foot-end">
+      <span>© 2026 Baljinder Singh. All rights reserved.</span>
+    </div>
   </div>
 </footer>
 
-<script src="paper.js?v=7"></script>
+<nav class="tabbar" aria-label="Sections">
+  <a href="#top" class="on" data-sec="top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 10v10h14V10"/></svg>Home</a>
+  <a href="#screens" data-sec="screens"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="7" y="3" width="10" height="18" rx="2.5"/><path d="M11 18h2"/></svg>Screens</a>
+  <a href="#features" data-sec="features"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Features</a>
+  <a href="#top" data-sec="get"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="M8 11l4 4 4-4"/><path d="M5 20h14"/></svg>Get</a>
+</nav>
+
+<script src="motion.js?v=1"></script>
 </body>
 </html>
