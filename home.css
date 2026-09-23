@@ -18,6 +18,7 @@
 }
 
 *{box-sizing:border-box}
+html,body{overflow-x:hidden;max-width:100%}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{
   margin:0;background:var(--paper);color:var(--ink);
@@ -119,7 +120,7 @@ h1 em{font-style:normal;color:var(--rust)}
 /* marquee ----------------------------------------------------------- */
 .ticker{
   margin-top:26px;border-block:1px solid var(--edge);background:var(--raised);
-  overflow:hidden;padding-block:11px
+  overflow:hidden;width:100%;max-width:100%;min-width:0;padding-block:11px
 }
 .ticker div{display:flex;gap:26px;width:max-content;animation:slide 26s linear infinite}
 .ticker b{
@@ -144,9 +145,13 @@ h2{font-size:clamp(28px,8vw,44px);line-height:1.02;letter-spacing:-.03em;font-we
 .up.done{clip-path:none;transition:none}
 
 /* ---------- the deck: drag left / right ---------- */
-.deck{position:relative;margin-inline:calc(var(--gut)*-1);padding-block:6px 4px}
+.deck{
+  position:relative;margin-inline:calc(var(--gut)*-1);padding-block:6px 4px;
+  width:100%;max-width:100%;box-sizing:border-box
+}
 .rail{
   display:flex;gap:16px;perspective:1200px;overflow-x:auto;scroll-snap-type:x mandatory;
+  width:100%;max-width:100%;box-sizing:border-box;
   padding-inline:calc(50vw - 122px);padding-block:26px 12px;
   scrollbar-width:none;-ms-overflow-style:none;cursor:grab;
   -webkit-overflow-scrolling:touch
@@ -162,10 +167,10 @@ h2{font-size:clamp(28px,8vw,44px);line-height:1.02;letter-spacing:-.03em;font-we
 .card img{width:100%;height:auto;display:block;border-radius:17px;background:var(--maroon);pointer-events:none}
 .card figcaption{margin-top:11px;text-align:center;font-size:14px;font-weight:700;color:var(--maroon)}
 .card figcaption span{display:block;font-weight:500;font-size:12.5px;color:var(--faint);margin-top:2px}
-.dots{display:flex;gap:7px;justify-content:center;margin-top:6px}
+.dots{display:flex;gap:7px;justify-content:center;margin-top:6px;width:100%;max-width:100%;box-sizing:border-box}
 .dots i{width:7px;height:7px;border-radius:50%;background:var(--warm);transition:.3s}
 .dots i.on{background:var(--rust);width:22px;border-radius:99px}
-.hint{text-align:center;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-top:12px}
+.hint{text-align:center;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-top:12px;width:100%;max-width:100%;box-sizing:border-box}
 
 /* ---------- stats ---------- */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}
@@ -211,6 +216,11 @@ h2{font-size:clamp(28px,8vw,44px);line-height:1.02;letter-spacing:-.03em;font-we
 .tabbar a.on{color:var(--maroon);background:var(--sunk)}
 
 footer{padding:26px var(--gut) 34px;text-align:center;color:var(--faint);font-size:13px}
+
+/* The deck is not inside .wrap, so the negative gutters only hang off the screen. */
+@media (max-width:759px){
+  .deck{margin-inline:0}
+}
 
 /* ---------- wider screens ---------- */
 @media (min-width:760px){
